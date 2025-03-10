@@ -46,7 +46,7 @@
 	import NotificationToast from '$lib/components/NotificationToast.svelte';
 	import AppSidebar from '$lib/components/app/AppSidebar.svelte';
 	import { chatCompletion } from '$lib/apis/openai';
-
+	
 	setContext('i18n', i18n);
 
 	const bc = new BroadcastChannel('active-tab-channel');

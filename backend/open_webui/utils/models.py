@@ -32,12 +32,12 @@ log.setLevel(SRC_LOG_LEVELS["MAIN"])
 
 async def get_all_base_models(request: Request, user: UserModel = None):
     function_models = []
-    openai_models = []
+    # openai_models = []
     ollama_models = []
 
-    if request.app.state.config.ENABLE_OPENAI_API:
-        openai_models = await openai.get_all_models(request, user=user)
-        openai_models = openai_models["data"]
+    # if request.app.state.config.ENABLE_OPENAI_API:
+    #     openai_models = await openai.get_all_models(request, user=user)
+    #     openai_models = openai_models["data"]
 
     if request.app.state.config.ENABLE_OLLAMA_API:
         ollama_models = await ollama.get_all_models(request, user=user)
@@ -54,7 +54,7 @@ async def get_all_base_models(request: Request, user: UserModel = None):
         ]
 
     function_models = await get_function_models(request)
-    models = function_models + openai_models + ollama_models
+    models = function_models + ollama_models
 
     return models
 

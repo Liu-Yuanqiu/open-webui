@@ -7,11 +7,6 @@
     import { WEBUI_NAME, type Model, models, chatId, chatTitle, settings } from '$lib/stores';
 
     const i18n = getContext('i18n');
-    let navbarElement;
-    let selectedModels = [];
-	let atSelectedModel: Model | undefined;
-	let selectedModelIds = [];
-	$: selectedModelIds = atSelectedModel !== undefined ? [atSelectedModel.id] : selectedModels;
     let params = {};
     onMount(async () => {
     });

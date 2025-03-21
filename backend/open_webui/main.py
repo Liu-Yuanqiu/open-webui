@@ -76,6 +76,7 @@ from open_webui.routers import (
     tools,
     users,
     utils,
+    ocr
 )
 
 from open_webui.routers.retrieval import (
@@ -874,6 +875,7 @@ app.include_router(images.router, prefix="/api/v1/images", tags=["images"])
 
 app.include_router(audio.router, prefix="/api/v1/audio", tags=["audio"])
 app.include_router(retrieval.router, prefix="/api/v1/retrieval", tags=["retrieval"])
+app.include_router(ocr.router, tags=["ocr"])
 
 app.include_router(configs.router, prefix="/api/v1/configs", tags=["configs"])
 
@@ -898,6 +900,7 @@ app.include_router(
     evaluations.router, prefix="/api/v1/evaluations", tags=["evaluations"]
 )
 app.include_router(utils.router, prefix="/api/v1/utils", tags=["utils"])
+
 
 
 try:

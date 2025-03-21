@@ -78,6 +78,9 @@
 
 	let folders = {};
 
+	//Color
+	let selectedButton = null;
+
 	const initFolders = async () => {
 		const folderList = await getFolders(localStorage.token).catch((error) => {
 			toast.error(`${error}`);
@@ -466,7 +469,7 @@
 		? 'md:relative w-[260px] max-w-[260px]'
 		: '-translate-x-[260px] w-[0px]'} {$isApp
 		? `ml-[4.5rem] md:ml-0 `
-		: 'transition-width duration-200 ease-in-out'}  shrink-0 bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-200 text-sm fixed z-50 top-0 left-0 overflow-x-hidden
+		: 'transition-width duration-200 ease-in-out'}  shrink-0 bg-sky-50 text-gray-900 dark:bg-gray-950 dark:text-gray-200 text-sm fixed z-50 top-0 left-0 overflow-x-hidden
         "
 	data-state={$showSidebar}
 >
@@ -477,9 +480,10 @@
 	>
 		<div class="px-1.5 flex justify-between space-x-1 text-gray-600 dark:text-gray-400">
 			<button
-				class=" cursor-pointer p-[7px] flex rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+				class=" cursor-pointer p-[7px] flex rounded-xl hover:bg-sky-200 dark:hover:bg-gray-900 transition"
 				on:click={() => {
 					showSidebar.set(!$showSidebar);
+					
 				}}
 			>
 				<div class=" m-auto self-center">
@@ -502,13 +506,14 @@
 
 			<a
 				id="sidebar-new-chat-button"
-				class="flex justify-between items-center flex-1 rounded-lg px-2 py-1 h-full text-right hover:bg-gray-100 dark:hover:bg-gray-900 transition no-drag-region"
+				class="flex justify-between items-center flex-1 rounded-lg px-2 py-1 h-full text-right hover:bg-sky-200 dark:hover:bg-gray-900 transition no-drag-region"
 				href="/"
 				draggable="false"
 				on:click={async () => {
 					selectedChatId = null;
 					await goto('/');
 					const newChatButton = document.getElementById('new-chat-button');
+					selectedButton = null;
 					setTimeout(() => {
 						newChatButton?.click();
 						if ($mobile) {
@@ -540,7 +545,7 @@
 		<!-- {#if $user?.role === 'admin'}
 			<div class="px-1.5 flex justify-center text-gray-800 dark:text-gray-200">
 				<a
-					class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+					class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-sky-200 dark:hover:bg-gray-900 transition"
 					href="/home"
 					on:click={() => {
 						selectedChatId = null;
@@ -565,11 +570,12 @@
 		
 		<div class="px-1.5 flex justify-center text-gray-800 dark:text-gray-200">
 			<a
-				class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+				class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-sky-200 dark:hover:bg-gray-900 transition {selectedButton === 'chem' ? 'bg-sky-200' : 'hover:bg-sky-200'}"
 				href="/agent/chem"
 				on:click={() => {
 					selectedChatId = null;
 					chatId.set('');
+					selectedButton = 'chem';
 
 					if ($mobile) {
 						showSidebar.set(false);
@@ -602,11 +608,12 @@
 
 		<div class="px-1.5 flex justify-center text-gray-800 dark:text-gray-200">
 			<a
-				class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+				class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-sky-200 dark:hover:bg-gray-900 transition {selectedButton === 'ocr' ? 'bg-sky-200' : 'hover:bg-sky-200'}"
 				href="/agent/ocr"
 				on:click={() => {
 					selectedChatId = null;
 					chatId.set('');
+					selectedButton = 'ocr';
 
 					if ($mobile) {
 						showSidebar.set(false);
@@ -640,7 +647,7 @@
 		<!-- {#if $user?.role === 'admin' || $user?.permissions?.workspace?.models || $user?.permissions?.workspace?.knowledge || $user?.permissions?.workspace?.prompts || $user?.permissions?.workspace?.tools}
 			<div class="px-1.5 flex justify-center text-gray-800 dark:text-gray-200">
 				<a
-					class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+					class="grow flex items-center space-x-3 rounded-lg px-2 py-[7px] hover:bg-sky-200 dark:hover:bg-gray-900 transition"
 					href="/workspace"
 					on:click={() => {
 						selectedChatId = null;
@@ -886,23 +893,23 @@
 									>
 										{$i18n.t(chat.time_range)}
 										<!-- localisation keys for time_range to be recognized from the i18next parser (so they don't get automatically removed):
-							{$i18n.t('Today')}
-							{$i18n.t('Yesterday')}
-							{$i18n.t('Previous 7 days')}
-							{$i18n.t('Previous 30 days')}
-							{$i18n.t('January')}
-							{$i18n.t('February')}
-							{$i18n.t('March')}
-							{$i18n.t('April')}
-							{$i18n.t('May')}
-							{$i18n.t('June')}
-							{$i18n.t('July')}
-							{$i18n.t('August')}
-							{$i18n.t('September')}
-							{$i18n.t('October')}
-							{$i18n.t('November')}
-							{$i18n.t('December')}
-							-->
+										{$i18n.t('Today')}
+										{$i18n.t('Yesterday')}
+										{$i18n.t('Previous 7 days')}
+										{$i18n.t('Previous 30 days')}
+										{$i18n.t('January')}
+										{$i18n.t('February')}
+										{$i18n.t('March')}
+										{$i18n.t('April')}
+										{$i18n.t('May')}
+										{$i18n.t('June')}
+										{$i18n.t('July')}
+										{$i18n.t('August')}
+										{$i18n.t('September')}
+										{$i18n.t('October')}
+										{$i18n.t('November')}
+										{$i18n.t('December')}
+										-->
 									</div>
 								{/if}
 
@@ -967,7 +974,7 @@
 						}}
 					>
 						<button
-							class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-gray-100 dark:hover:bg-gray-900 transition"
+							class=" flex items-center rounded-xl py-2.5 px-2.5 w-full hover:bg-sky-200 dark:hover:bg-gray-900 transition"
 							on:click={() => {
 								showDropdown = !showDropdown;
 							}}
